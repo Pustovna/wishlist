@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import { authModalState } from "@/store/auth";
 
 export type Product = {
   id: number,
