@@ -11,11 +11,7 @@ import { authModalState } from "@/store/auth";
 
 export default function Login() {
   const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
-
   const [inputs, setInputs] = useState({ email: "", password: "" });
-
-  const isOpen = authModalState((state) => state.isOpen);
-
   const router = useRouter();
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +35,11 @@ export default function Login() {
       if (error) alert(`${error.message}`);
     }
   };
+
+  const handleClick = (type: 'login' | 'register' | 'forgotPassword') => {
+    authModalState.getState().updateType(type);
+    console.log(type);
+  }
 
   return (
     <form className="space-y-6 px-6 py-4" onSubmit={handleLogin}>
@@ -77,14 +78,13 @@ export default function Login() {
         type="submit"
         className="w-full text-black font-medium rounded-lg text-sm px-5 ring ring-gray-300 hover:ring-gray-500 py-2.5 text-center bg-gray-300 hover:bg-gray-400"
       >
-        Submit
         {loading ? "Loading..." : "Login"}
       </button>
       <button className="flex w-full justify-end">
         <a
           href="#"
           className="text-sm block text-brand-orange hover:underline w-full text-right"
-          //   onClick={() => handleClick("forgotPassword")}
+            onClick={() => handleClick("forgotPassword")}
         >
           Forgot password?
         </a>
@@ -94,7 +94,7 @@ export default function Login() {
         <a
           href="#"
           className="text-blue-700 hover:underline"
-          // onClick={() => handleClick("register")}
+          onClick={() => handleClick("register")}
         >
           Create an account
         </a>

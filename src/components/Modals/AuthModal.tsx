@@ -4,8 +4,9 @@ import { authModalState } from "@/store/auth";
 import { IoClose } from "react-icons/io5";
 import Login from "./Login";
 import Signup from "./Signup";
+import ResetPassword from "./ResetPassword";
 import { useRouter } from "next/navigation";
-// import { auth } from "@/app/firebase/firebase";
+
 
 type AuthModalProps = {};
 
@@ -34,7 +35,8 @@ const AuthModal: React.FC<AuthModalProps> = () => {
               </button>
             </div>
 			<div className="decoration-slate-50 text-gray-800 text-center">
-				{typeAction === "login" ? <Login /> : <Signup />}
+
+				{typeAction === "login" ? <Login /> : typeAction === "register" ?  <Signup /> : <ResetPassword />}
 			</div>
           </div>
         </div>
@@ -45,11 +47,11 @@ const AuthModal: React.FC<AuthModalProps> = () => {
 export default AuthModal;
 
 function useCloseModal() {
-  // const setAuthModal = useSetRecoilState(authModalState);
   const router = useRouter();
 
   const closeModal = () => {
     authModalState.getState().updateIsOpen(false);
+    authModalState.getState().updateType("login");
     router.push("/product");
   };
 
