@@ -5,12 +5,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authModalState } from "@/store/auth";
 
-
-
-
-
 export default function Login() {
-  const [signInWithEmailAndPassword, user, loading, error] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const router = useRouter();
 
@@ -36,16 +33,17 @@ export default function Login() {
     }
   };
 
-  const handleClick = (type: 'login' | 'register' | 'forgotPassword') => {
+  const handleClick = (type: "login" | "register" | "forgotPassword") => {
     authModalState.getState().updateType(type);
-    console.log(type);
-  }
+  };
 
   return (
     <form className="space-y-6 px-6 py-4" onSubmit={handleLogin}>
-      <h3 className="text-xl font-medium text-white">Sign in to your best wishlist</h3>
+      <h3 className="text-xl font-medium text-white">
+        Sign in to your best wishlist
+      </h3>
       <div>
-        <label htmlFor="email"  className="text-sm font-medium text-gray-300">
+        <label htmlFor="email" className="text-sm font-medium text-gray-300">
           Your email
         </label>
         <input
@@ -84,7 +82,7 @@ export default function Login() {
         <a
           href="#"
           className="text-sm block text-brand-orange hover:underline w-full text-right"
-            onClick={() => handleClick("forgotPassword")}
+          onClick={() => handleClick("forgotPassword")}
         >
           Forgot password?
         </a>

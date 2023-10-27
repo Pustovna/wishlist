@@ -1,4 +1,4 @@
-import { useCartStore } from "@/store/zustand";
+// import { useCartStore } from "@/store/zustand";
 import exp from "constants";
 
 type ButtonListProps = {
@@ -6,10 +6,12 @@ type ButtonListProps = {
 }
 
 const ButtonList: React.FC<ButtonListProps>  = ({ typeOfDo }) => {
-    const {add: handleAdd, remove: handleDelete} = useCartStore();
+//     const {add: handleAdd, remove: handleDelete} = useCartStore();
         return (
             
-                <button className="mr-10" type="button" onClick={typeOfDo === "add" ? handleAdd : handleDelete}>
+                <button className="mr-10" type="button" 
+                // onClick={typeOfDo === "add" ? handleAdd : handleDelete}
+                >
                     {}
                 </button>
           

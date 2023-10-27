@@ -23,18 +23,19 @@ export default function LinkMenu({
 
   return (
     <div>
-
-      <Link href="/auth">
+      <span>Here will menu</span>
+{/* 
+      {/* <Link href="/auth">
       <button 
       // onClick={(e) => updateType(typeAction === 'login' ? 'signup' : 'login')}
       onClick={(e) => handleButtonClick()}
       className="hover:bg-sky-700 p-3">
          Change state
       </button>
-      </Link>
+      </Link> */}
      
 
-      
+{/*       
        
       <Link href={href} 
       className="text-sm text-slate-700 px-2 py-1 rounded-md
@@ -45,7 +46,7 @@ export default function LinkMenu({
         {isNew && <NewItem/>}
       </span>
       
-    </Link>
+    </Link> */} 
     </div>
     
   );

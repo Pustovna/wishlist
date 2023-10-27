@@ -1,14 +1,3 @@
-// import Link from "next/link";
-
-// export default function Navbar() {
-//   return <nav>
-   
-//       <Link href="/">
-//         <div className="uppercase font-bold">Learn<span className="text-teal-500">Thing</span></div>
-//       </Link>
-
-//   </nav>
-// }
 import Link from "next/link";
 import LinkMenu from "./link/Menu";
 import CartButton from "./Buttons/CartButton";
@@ -20,16 +9,16 @@ export default function Navbar() {
     
 
       <Link href="/">
-        <div className="uppercase font-bold">Learn<span className="text-teal-500">Thing</span></div>
+        <div className="uppercase font-bold">Wish<span className="text-teal-500">List</span></div>
       </Link>
 
       <div className="flex gap-2">
         <LinkMenu href="/product" label="Product" isNew/>
       </div>
 
-      <div className="flex gap-1 items-center">
+      {/* <div className="flex gap-1 items-center">
         <CartButton/>
-      </div>
+      </div> */}
       <Topbar  />
       
     </div>

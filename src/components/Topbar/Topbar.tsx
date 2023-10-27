@@ -1,18 +1,25 @@
 "use client";
-import React from "react";
 import { auth } from "@/app/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Link from "next/link";
 import { authModalState } from "@/store/auth";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type TopbarProps = {};
 
 const Topbar: React.FC<TopbarProps> = () => {
-  const [user] = useAuthState(auth);
+
+  const userFromAuth = useAuthState(auth);
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+   setUser(Boolean(userFromAuth[0]));
+  }, []);
+
   const handleLogout = () => {
     auth.signOut();
   };
+
   const router = useRouter();
 
   const handleButtonClick = () => {
@@ -24,31 +31,15 @@ const Topbar: React.FC<TopbarProps> = () => {
     }   
   };
 
-  const getUser = () => {
-    if (!user) {
-      return "Login";
-    }
-    return auth.currentUser?.email;
-  };
-
   return (
     <div>
       
         <button
-          // onClick={(e) => updateType(typeAction === 'login' ? 'signup' : 'login')}
           onClick={(e) => handleButtonClick()}
           className="hover:bg-sky-700 p-3"
-        >
-          {getUser()}
+        >        
+          {user ? auth.currentUser?.email : "Login"}
         </button>
-     
-      {/* <button
-        type="button"
-        className="rounded-lg text-sm p-1.5 inline-flex items-center bg-gray-800 hover:bg-gray-600 hover:text-white text-white"
-      >
-        {getUser()}
-      </button> */}
-
       {user && (
         <button
           type="button"
