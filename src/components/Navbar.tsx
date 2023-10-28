@@ -16,9 +16,6 @@ export default function Navbar() {
         <LinkMenu href="/product" label="Product" isNew/>
       </div>
 
-      {/* <div className="flex gap-1 items-center">
-        <CartButton/>
-      </div> */}
       <Topbar  />
       
     </div>

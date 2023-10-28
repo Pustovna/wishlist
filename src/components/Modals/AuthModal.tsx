@@ -7,7 +7,6 @@ import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
 import { useRouter } from "next/navigation";
 
-
 type AuthModalProps = {};
 
 const AuthModal: React.FC<AuthModalProps> = () => {
@@ -34,10 +33,15 @@ const AuthModal: React.FC<AuthModalProps> = () => {
                 <IoClose className="h-5 w-5" />
               </button>
             </div>
-			<div className="decoration-slate-50 text-gray-800 text-center">
-
-				{typeAction === "login" ? <Login /> : typeAction === "register" ?  <Signup /> : <ResetPassword />}
-			</div>
+            <div className="decoration-slate-50 text-gray-800 text-center">
+              {typeAction === "login" ? (
+                <Login />
+              ) : typeAction === "register" ? (
+                <Signup />
+              ) : (
+                <ResetPassword />
+              )}
+            </div>
           </div>
         </div>
       </div>

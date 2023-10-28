@@ -1,6 +1,7 @@
+'use client'
 import ProductCard from "@/components/ProductCard";
-import { authModalState } from "@/store/auth";
 import User from "@/interfaces/Users";
+import FirestoreCollection, { getUsers } from "@/services/Firebase";
 
 // export type Product = {
 //   id: number,
@@ -60,22 +61,37 @@ export default function Page() {
     }
   ];
 
-  return (<>
-    <h1 className="font-semibold text-slate-200 text-2xl border-b pb-4 border-b-slate-700">Products</h1>
+  const users = getUsers();
+ 
+ 
+  
+ 
 
-    <div className="overflow-y-auto h-[80vh] w-[40%] bg-blue-950 p-5">
+  return (<div className="flex">
+    {/* <h1 className="font-semibold text-slate-200 text-2xl border-b pb-4 border-b-slate-700">Products</h1> */}
+
+    <div className="overflow-y-auto h-[90vh] w-[40%] bg-blue-950 p-5">
 
     
     <div className=" text-sm pt-4 flex flex-col  gap-4 ">
-      {products.map(product => 
-        <ProductCard 
-          key={product.uid} 
+
+      {users && users.map( (user, i) => {
+        return <ProductCard 
+          key={user.uid} 
           // id={product.id} 
-          displayName={product.displayName} 
+          displayName={user.displayName} 
           // price={product.price}
           />
-      )}
+      })}
+ 
     </div>
     </div>
-  </>)
+    <div className="m-auto">
+      WishList
+    </div>
+  </div>)
 }
+
+// function useGetProblems() {
+//   throw new Error("Function not implemented.");
+// }

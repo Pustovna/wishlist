@@ -1,54 +1,38 @@
 "use client";
 import { auth } from "@/app/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Link from "next/link";
 import { authModalState } from "@/store/auth";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Logout from "../Buttons/Logout";
+import useHasMounted from "@/hooks/useHasMounted";
 
 type TopbarProps = {};
 
 const Topbar: React.FC<TopbarProps> = () => {
+  const hasMounted = useHasMounted();
 
-  const userFromAuth = useAuthState(auth);
-  const [user, setUser] = useState(false);
-  useEffect(() => {
-   setUser(Boolean(userFromAuth[0]));
-  }, []);
-
-  const handleLogout = () => {
-    auth.signOut();
-  };
-
+  const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
   const handleButtonClick = () => {
-    if (!user) {
-        authModalState.getState().updateIsOpen(true);
-        router.push("/auth");
-    } else {
-        return;
-    }   
+    authModalState.getState().updateIsOpen(true);
+    router.push("/auth");
   };
+
+  if (!hasMounted) return null;
 
   return (
     <div>
-      
+      {!user && (
         <button
-          onClick={(e) => handleButtonClick()}
           className="hover:bg-sky-700 p-3"
-        >        
-          {user ? auth.currentUser?.email : "Login"}
-        </button>
-      {user && (
-        <button
-          type="button"
-          className="rounded-lg text-sm p-1.5 inline-flex items-center bg-gray-800 hover:bg-gray-600 hover:text-white text-white"
-          onClick={handleLogout}
+          onClick={(e) => handleButtonClick()}
         >
-          Log Out
+          Login
         </button>
       )}
+      {user && <button className="mx-3">{auth.currentUser?.email}</button>}
+      {user && <Logout />}
     </div>
   );
 };

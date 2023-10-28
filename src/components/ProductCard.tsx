@@ -39,7 +39,7 @@ export default function ProductCard({ displayName }: User) {
     <div className=" shadow-xl flex items-center border p-3 rounded-xl border-slate-700">
       <div className=" rounded-md">
         { loaded && DynamicComponent}
-     
+        
         {/* <img
           src="https://i0.wp.com/researchista.com/wp-content/uploads/2016/07/sdfsfds.png?fit=1200%2C800&ssl=1"
           alt="coffee"
