@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Logout from "../Buttons/Logout";
 import useHasMounted from "@/hooks/useHasMounted";
 
+
 type TopbarProps = {};
 
 const Topbar: React.FC<TopbarProps> = () => {
@@ -19,6 +20,10 @@ const Topbar: React.FC<TopbarProps> = () => {
     router.push("/auth");
   };
 
+  const habdleGo = () => {
+    router.push("/profile");
+  }
+
   if (!hasMounted) return null;
 
   return (
@@ -31,7 +36,7 @@ const Topbar: React.FC<TopbarProps> = () => {
           Login
         </button>
       )}
-      {user && <button className="mx-3">{auth.currentUser?.email}</button>}
+      {user && <button onClick={habdleGo} className="mx-3">{auth.currentUser?.email}</button>}
       {user && <Logout />}
     </div>
   );

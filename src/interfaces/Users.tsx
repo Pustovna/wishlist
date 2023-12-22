@@ -1,10 +1,11 @@
 export default interface User {
-    uid?: string;
-    createdAt?: number;
-    displayName: string;
-    email?: string;
+    uid: string;
+    displayName: string | null;
+    email?: string | null;
     friendRequest?: number[];
     friends?: number[];
-    updatedAt?: number;
     picture?: string;
+    updatedAt?: number;
+    createdAt?: number;
+    wishlist?: string;
 }

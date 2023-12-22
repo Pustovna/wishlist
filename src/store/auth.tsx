@@ -1,9 +1,8 @@
-
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 type AuthModalState = {
    isOpen: boolean,
-   type: 'login' | 'signup' 
+   type: 'login' | 'register' | 'forgotPassword'
 }
 
 type AuthModalActions = {

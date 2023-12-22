@@ -1,0 +1,7 @@
+.box {
+  border: 12px solid transparent;
+  border-radius: 24px;
+  background: linear-gradient(black, black) padding-box,
+  linear-gradient(45deg, #873e7c42, #544c2cc9) border-box;
+  padding: 10px;
+}

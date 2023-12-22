@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/app/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
+import User from "@/interfaces/Users";
 
 
 
@@ -26,18 +27,19 @@ export default function Signup() {
 		try {
 			const newUser = await createUserWithEmailAndPassword(inputs.email, inputs.password);
 			if (!newUser) return;
-			const userData = {
+			const userData : User = {
 				uid: newUser.user.uid,
 				email: newUser.user.email,
 				displayName: inputs.displayName,
 				createdAt: Date.now(),
 				updatedAt: Date.now(),
-				likedProblems: [],
-				dislikedProblems: [],
-				solvedProblems: [],
-				starredProblems: [],
+				friendRequest: [],
+				friends: [],
+				picture: "",
+				wishlist: "",
 			};
-			await setDoc(doc(firestore, "users", newUser.user.uid), userData);
+			await setDoc(doc(firestore, "usersWish", newUser.user.uid), userData);
+			await setDoc(doc(firestore, "wishLists", newUser.user.uid), { list: [], wasChecked: []});
             authModalState.getState().updateIsOpen(false);
 			router.push("/");
 		} catch (error: any) {
