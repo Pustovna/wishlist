@@ -1,7 +1,5 @@
 import { firestore } from "@/app/firebase/firebase";
 import User from "@/interfaces/Users";
-import { wishState } from "@/store/wishList";
-import { rejects } from "assert";
 import {
   addDoc,
   deleteDoc,
@@ -13,8 +11,10 @@ import {
   query,
   runTransaction,
   updateDoc,
+  DocumentReference,
+  Transaction,
+  DocumentSnapshot,
 } from "firebase/firestore";
-import { resolve } from "path";
 import React, { use } from "react";
 import { useEffect, useState } from "react";
 
@@ -57,6 +57,152 @@ export async function updateData(uid: string, data: {}) {
   }
 }
 
+export async function addFriends(uid: string, data: string) {
+  return new Promise((resolve, reject) => {
+    const sfDocRef = doc(firestore, "usersWish", uid);
+    if (!sfDocRef) {
+      console.log("Document does not exist!");
+      reject("Document does not exist!");
+    } else {
+      runTransaction(firestore, async (transaction) => {
+        const sfDoc = await transaction.get(sfDocRef);
+        if (!sfDoc.exists()) {
+          reject("Document does not exist!");
+        }
+        const newArr = sfDoc.data()?.friendsWaiting || [];
+        newArr.push(data);
+        transaction.update(sfDocRef, { friendsWaiting: newArr });
+        console.log("Transaction successfully committed!");
+        resolve(newArr);
+      });
+    }
+  });
+}
+
+export async function acceptFriend(requester: string, reciver: string) {
+  try {
+    const sfDocRef = doc(firestore, "usersWish", reciver);
+    runTransaction(firestore, async (transaction) => {
+      const sfDoc = await transaction.get(sfDocRef);
+      if (!sfDoc.exists()) {
+        console.error("Document does not exist!");
+      }
+      const newArr = sfDoc.data()?.friends || [];
+      newArr.push(requester);
+      transaction.update(sfDocRef, { friends: newArr });
+      console.log("Transaction successfully committed!");
+      return true;
+    });
+  } catch (error) {
+    console.error("Something wrong in accept friend", error);
+    return false;
+  }
+}
+
+export async function deleteUserFromRequest(
+  requester: string,
+  receiver: string
+) {
+  const docRef: DocumentReference = doc(firestore, "usersWish", receiver);
+  // const docRef = doc(firestore, "usersWish", reciver);
+  try {
+    const result = await runTransaction(
+      firestore,
+      async (transaction: Transaction) => {
+        const sfDoc: DocumentSnapshot = await transaction.get(docRef);
+        if (!sfDoc.exists()) {
+          throw new Error("Document does not exist");
+        }
+        const arrOld = sfDoc.data()?.friendsRequest || [];
+        const newArr = arrOld.filter((item: string) => item !== requester);
+        transaction.update(docRef, { friendsRequest: newArr });
+        return true;
+      }
+    );
+    return result;
+  } catch (error) {
+    console.error("Transaction failed: ", error);
+    throw error;
+  }
+
+}
+  // runTransaction(firestore, async (transaction) => {
+  //   const sfDoc = await transaction.get(docRef);
+  //   if (!sfDoc.exists()) {
+  //     return 'Something wrong in Doc';
+  //   }
+  //   const arrOld = sfDoc.data()?.friendsRequest || [];
+
+  //   const newArr = arrOld.filter((item: string) => item !== requester);
+  //   transaction.update(docRef, { friendsRequest: newArr });
+  //   return true;
+  // });
+export async function deleteUserFromWaiting(
+  requester: string,
+  reciver: string
+) {
+  try {
+    const docRef = doc(firestore, "usersWish", requester);
+    runTransaction(firestore, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        console.error(Error);
+      }
+      const arrOld = sfDoc.data()?.friendsWaiting || [];
+
+      const newArr = arrOld.filter((item: string) => item !== reciver);
+      transaction.update(docRef, { friendsWaiting: newArr });
+    });
+
+    return true;
+  } catch {
+    console.error(Error);
+    return false;
+  }
+}
+
+export async function deleteUserFromFriends(
+  requester: string,
+  reciver: string
+) {
+  try {
+    const docRef = doc(firestore, "usersWish", requester);
+    runTransaction(firestore, async (transaction) => {
+      const sfDoc = await transaction.get(docRef);
+      if (!sfDoc.exists()) {
+        console.error(Error);
+      }
+      const arrOld = sfDoc.data()?.friends || [];
+
+      const newArr = arrOld.filter((item: string) => item !== reciver);
+      transaction.update(docRef, { friends: newArr });
+    });
+
+    return true;
+  } catch {
+    console.error(Error);
+    return false;
+  }
+}
+
+export async function sendRequestToUser(requester: string, reciver: string) {
+  try {
+    const sfDocRef = doc(firestore, "usersWish", reciver);
+    runTransaction(firestore, async (transaction) => {
+      const sfDoc = await transaction.get(sfDocRef);
+      if (!sfDoc.exists()) {
+        console.error("Document does not exist!", Error);
+      }
+      const newArr = sfDoc.data()?.friendsRequest || [];
+      newArr.push(requester);
+      transaction.update(sfDocRef, { friendsRequest: newArr });
+      console.log("Transaction successfully committed!");
+    });
+  } catch {
+    console.error("Something wrong in request friend", Error);
+  }
+}
+
 export async function getUser(uid: string) {
   const docRef = doc(firestore, "usersWish", uid);
   const docSnap = await getDoc(docRef);
@@ -64,6 +210,18 @@ export async function getUser(uid: string) {
     return docSnap.data();
   } else {
     console.log("No such document!");
+    return null;
+  }
+}
+
+export async function getUserName(uid: string) {
+  const docRef = doc(firestore, "usersWish", uid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().displayName;
+  } else {
+    console.log("No such document!");
+    return null;
   }
 }
 
@@ -188,23 +346,20 @@ export async function addThing(
 }
 
 export async function deleteThing(uid: string, idWish: string) {
-
   return new Promise((resolve, rejects) => {
     const docRef = doc(firestore, "wishLists", uid);
-    if (!docRef) return rejects('no doc');
+    if (!docRef) return rejects("no doc");
     runTransaction(firestore, async (transaction) => {
       const sfDoc = await transaction.get(docRef); // get data from wishList
       if (!sfDoc.exists()) {
         rejects("Document does not exist!"); // if hasn't wishList return error message
       }
       const newArr = sfDoc.data()?.list;
-      
+
       let index;
       if (newArr.length !== 0) {
         index = newArr.findIndex(
-          (
-            wish: { comment: string; id: string; price: string }
-          ) => {
+          (wish: { comment: string; id: string; price: string }) => {
             if (wish.id === idWish) return true;
             return false;
           }
@@ -214,11 +369,9 @@ export async function deleteThing(uid: string, idWish: string) {
           console.log("deleting was successfully");
           transaction.update(docRef, { list: newArr });
           resolve(newArr);
-        }        
+        }
       }
-      rejects('does not find such id');
+      rejects("does not find such id");
     });
-  })
+  });
 }
-
-

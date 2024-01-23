@@ -6,16 +6,15 @@ export default async function getFullThink(userId: string) {
     getWishList(userId)
       .then((res) => {
         if (!res) {
-          reject("not result");
+          reject("Wish list not found");
         }
         fullWish = [...res?.list];
 
-        const thinkPromises = fullWish.map((item) => {
-          return getThink(item.id).then((res) => {
-            item.name = res?.name;
-            item.link = res?.link;
-            item.picture = res?.picture;
-          });
+        const thinkPromises = fullWish.map(async (item) => {
+          const res = await getThink(item.id);
+          item.name = res?.name;
+          item.link = res?.link;
+          item.picture = res?.picture;
         });
 
         Promise.all(thinkPromises)
@@ -23,11 +22,15 @@ export default async function getFullThink(userId: string) {
             resolve(fullWish);
           })
           .catch((err) => {
+            console.log(err);
             reject("error in getThink");
           });
       })
       .catch((err) => {
-        reject("error in getWishList");
+        console.log(err);
+        reject(err);
       });
   });
 }
+
+

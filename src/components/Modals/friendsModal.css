@@ -1,0 +1,27 @@
+.button-user {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+}
+
+.button-delete {
+  background-image: url("../../../assets/icons/delete.png");
+}
+
+.button-add {
+  background-image: url("../../../assets/icons/add.png");
+}
+
+.button-waiting {
+    background-image: url("../../../assets/icons/waiting.png");
+}
+
+.button-user:hover {
+  filter: drop-shadow(2px 2px 2px #606079);
+}
+
+
+.friends-container::-webkit-scrollbar {
+    display: none;
+}

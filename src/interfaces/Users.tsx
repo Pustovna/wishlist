@@ -2,8 +2,9 @@ export default interface User {
     uid: string;
     displayName: string | null;
     email?: string | null;
-    friendRequest?: number[];
-    friends?: number[];
+    friendsRequest?: string[];
+    friendsWaiting?: string[];
+    friends?: number[] | any;
     picture?: string;
     updatedAt?: number;
     createdAt?: number;
