@@ -10,7 +10,6 @@ import {
   GiBed,
   GiDoctorFace,
 } from "react-icons/gi";
-import User from "@/interfaces/Users";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { userState } from "@/store/usres";
@@ -41,7 +40,7 @@ type ProductCardProps = {
   uid: string;
 };
 
-export default function ProductCard({
+export function ProductCard({
   UserName,
   uid,
   status,
@@ -74,8 +73,8 @@ export default function ProductCard({
 
   return (
     <div
-      className={`shadow-xl flex items-center border p-3 rounded-xl ${
-        wishListId === uid ? "border-slate-400" : "border-slate-700"
+      className={`flex items-center border p-3 rounded-xl ${
+        wishListId === uid ? "border-slate-700" : "border-slate-400"
       }`}
     >
       <div className=" rounded-md">{loaded && DynamicComponent}</div>
@@ -100,3 +99,7 @@ export default function ProductCard({
     </div>
   );
 }
+
+
+
+

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth, firestore } from "@/app/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import User from "@/interfaces/Users";
+import {User} from "@/interfaces/Users";
 
 
 

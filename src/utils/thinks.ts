@@ -32,5 +32,3 @@ export default async function getFullThink(userId: string) {
       });
   });
 }
-
-

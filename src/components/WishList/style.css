@@ -1,7 +1,22 @@
-.box {
-  border: 12px solid transparent;
-  border-radius: 24px;
-  background: linear-gradient(black, black) padding-box,
-  linear-gradient(45deg, #873e7c42, #544c2cc9) border-box;
-  padding: 10px;
+.link-item svg path {
+  transition: 200ms all ease-in-out;
 }
+
+
+.link-item:hover svg path{
+  fill: aquamarine;
+}
+
+.splide__pagination {
+  align-items: end !important;
+  /* margin-right: 4px !important; */
+}
+
+.present-container .splide {
+  padding: 0 40px 0 0 !important;
+}
+
+/* .splide__pagination--ttb .splide__pagination__page.splide__pagination--present {
+  width: 10px;
+  height: 10px;
+} */

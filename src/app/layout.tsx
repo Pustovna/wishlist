@@ -19,11 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`antialiased bg-slate-950 text-white ${font.className}`}>
+    <html lang="ru">
+      <body className={`antialiased min-h-screen text-black  ${font.className}`}>
         <AuthContextProvider>
-          <Navbar />
-          <main className="mx-auto max-w-6xl">{children}</main>
+          <div className="max-w-screen-xl mx-auto min-h-screen">
+            <Navbar />
+
+            <main className="min-height-md">{children}</main>
+          </div>
         </AuthContextProvider>
       </body>
     </html>

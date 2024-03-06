@@ -14,14 +14,17 @@ type FriendsReqProps = {
 export default function FriendsReq({ requester }: FriendsReqProps) {
   const [name, setName] = useState("");
   const uid = userState((state) => state.user);
-  const deleteFromRequests = userState((state) => state.deleteFromRequests); 
+  const deleteFromRequests = userState((state) => state.deleteFromRequests);
   const addFriends = userState((state) => state.addFriends);
 
-  const handleAccept = async (requester: string, uid: string) => {
+  const handleAccept = async (requester: string, uid: string | undefined) => {
+    if (!uid) {
+      return;
+    }
     try {
       await acceptFriend(requester, uid);
       await acceptFriend(uid, requester);
-   
+
       await deleteUserFromWaiting(requester, uid);
       await deleteUserFromRequest(requester, uid);
       deleteFromRequests(requester);
@@ -31,7 +34,10 @@ export default function FriendsReq({ requester }: FriendsReqProps) {
     }
   };
 
-  const handleReject = async(requester: string, uid: string) => {
+  const handleReject = async (requester: string, uid: string | undefined) => {
+    if (!uid) {
+      return;
+    }
     try {
       await deleteUserFromWaiting(requester, uid);
       await deleteUserFromRequest(requester, uid);
@@ -39,7 +45,7 @@ export default function FriendsReq({ requester }: FriendsReqProps) {
     } catch (error) {
       console.error("Something wrong in handleAccept", error);
     }
-  }
+  };
 
   useEffect(() => {
     const getName = async () => {
@@ -61,7 +67,11 @@ export default function FriendsReq({ requester }: FriendsReqProps) {
       >
         Да!
       </button>
-      <button onClick={() => handleReject(requester, uid)} type="button" className="bg-indigo-500 mx-2 px-2">
+      <button
+        onClick={() => handleReject(requester, uid)}
+        type="button"
+        className="bg-indigo-500 mx-2 px-2"
+      >
         Нет!
       </button>
     </div>

@@ -26,6 +26,7 @@ const AuthModal: React.FC<AuthModalProps> = () => {
           <div className="bg-white rounded-lg shadow relative w-full bg-gradient-to-b from-brand-orange to-slate-900 mx-6">
             <div className="flex justify-end p-2">
               <button
+                title="Закрыть"
                 type="button"
                 className="rounded-lg text-sm p-1.5 ml-auto inline-flex items-center bg-gray-800 hover:bg-gray-600 hover:text-white text-white"
                 onClick={closeModal}

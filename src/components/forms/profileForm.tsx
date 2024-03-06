@@ -1,4 +1,4 @@
-import { updateData, addFriends } from "@/services/Firebase";
+import { updateData } from "@/services/Firebase";
 import { userState } from "@/store/usres";
 import { useState } from "react";
 import FriendsModal from "../Modals/FriendsModal";
@@ -6,7 +6,7 @@ import FriendsModal from "../Modals/FriendsModal";
 interface ProfileFormProps {
   uid: string;
   type: string;
-  func: (param: string) => void;
+  func: (param: string, arr: {}) => void;
 }
 
 export default function ProfileForm({ uid, type, func }: ProfileFormProps) {
@@ -17,13 +17,14 @@ export default function ProfileForm({ uid, type, func }: ProfileFormProps) {
     e.preventDefault();
     try {
       if (type === "friends") {
-        console.log('shalom');
-        
+        console.log("shalom");
       }
       if (type === "displayName") {
         await updateData(uid, inputs);
+        const name = Object.values(inputs);
+        func('displayName', name);
       }
-      updateChangedData(inputs);
+      updateChangedData(inputs); 
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +39,7 @@ export default function ProfileForm({ uid, type, func }: ProfileFormProps) {
       {type === "friends" && (
         <>
           <div>
-            <FriendsModal close={() => func("friends")}/>
+            <FriendsModal close={() => func("friends", null)} />
           </div>
         </>
       )}

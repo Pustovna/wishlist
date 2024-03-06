@@ -1,4 +1,4 @@
-import User from '@/interfaces/Users';
+import { Friend } from '@/interfaces/Users';
 import { getUserName } from '@/services/Firebase';
 import { get } from 'http';
 import { create } from 'zustand';
@@ -7,8 +7,8 @@ import { create } from 'zustand';
 type UserState = {
     user: string | undefined; // which user's wish list should be displayed
     wishListId: string | undefined ;
-    friendsList: Object[];
-    friendsRequestList: String[]; 
+    friendsList: Friend[];
+    friendsRequestList: string[]; 
     friendsWaitingList: [];
     changedData: object | undefined, // buffer for changed data that should be updated in firestore
 }
@@ -22,7 +22,7 @@ type UserActions = {
     deleteFriends: (id: string) => void;
     deleteFromRequests: (id: string) => void;
     addFriends: (id: string) => void;
-    updatewishListId: (id: string) => void;
+    updatewishListId: (id: string | undefined) => void;
 }
 
 export const userState = create<UserState & UserActions>((set, get) => ({
@@ -39,20 +39,20 @@ export const userState = create<UserState & UserActions>((set, get) => ({
     updatefriendsWaitingList: (friendsWaitingList) => set({friendsWaitingList}),
     updateChangedData: (changedData) => set({ changedData }),
     deleteFriends: (id) => {
-        const newUserArr: Object[] = get().friendsList.filter((item: any) => item.id !== id);
+        const newUserArr: Friend[] = get().friendsList.filter((item: any) => item.id !== id);
         set({ friendsList: newUserArr});
     },
     addFriends: async (id) => {
-        const newFriend: Object = {
+        const newFriend: Friend = {
             id: id, 
             displayName: await getUserName(id)
         }
-        const arr: Object[] = get().friendsList;
-        const updateArr: Object[] = [...arr,  newFriend];
+        const arr: Friend[] = get().friendsList;
+        const updateArr: Friend[] = [...arr,  newFriend];
         set({ friendsList: updateArr});
     },
     deleteFromRequests: (id) => {
-        const newUserArr: String[] = get().friendsRequestList.filter((item: any) => item !== id);
+        const newUserArr: string[] = get().friendsRequestList.filter((item: any) => item !== id);
         set({ friendsRequestList: newUserArr});
     }
 }));

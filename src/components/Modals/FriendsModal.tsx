@@ -2,11 +2,11 @@ import "./friendsModal.css";
 import { IoClose } from "react-icons/io5";
 import { userState } from "@/store/usres";
 import { addFriends, sendRequestToUser } from "@/services/Firebase";
-import { Suspense, useEffect, useState } from "react";
-import { fullList } from "./FriendsList";
+import { useEffect, useState } from "react";
+import { fullList } from "@/services/userList";
 
 interface FriendsModalProps {
-  close: (param: string) => void;
+  close: (param: string, arr: null) => void;
 }
 
 export const revalidate = 3600; // for cashe
@@ -18,11 +18,9 @@ type FriendsItemProps = {
 };
 
 export default function FriendsModal({ close }: FriendsModalProps) {
-  const handleFriend = () => {};
-
-  const handleClick = () => {};
   const [allUsers, setallUsers] = useState<FriendsItemProps[]>([]);
   const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState('');
   const uid = userState((state) => state.user);
 
   useEffect(() => {
@@ -32,8 +30,8 @@ export default function FriendsModal({ close }: FriendsModalProps) {
       try {
         const res = await fullList(uid);
         setallUsers(res);
-      } catch {
-        console.error("Ошибка при загрузке данных пользователей:", Error);
+      } catch (error) {
+        console.log("Ошибка при загрузке данных пользователей:", error);
       } finally {
         setLoading(false);
       }
@@ -41,11 +39,13 @@ export default function FriendsModal({ close }: FriendsModalProps) {
     usersData();
   }, []);
 
+  const friendListUsers = input ? allUsers.filter((item) => item.UserName?.toLowerCase().includes(input.toLowerCase())) : allUsers
+
   return (
     <>
       <div
         className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-60"
-        onClick={() => close("friends")}
+        onClick={() => close("friends", null)}
       ></div>
 
       <div className="w-full sm:w-[700px]  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]  flex justify-center items-center">
@@ -53,9 +53,10 @@ export default function FriendsModal({ close }: FriendsModalProps) {
           <div className="bg-white rounded-lg shadow relative w-full bg-gradient-to-b from-brand-orange to-slate-900 mx-6">
             <div className="flex justify-end p-2">
               <button
+                title="Закрыть"
                 type="button"
                 className="rounded-lg text-sm p-1.5 ml-auto inline-flex items-center bg-gray-800 hover:bg-gray-600 hover:text-white text-white"
-                onClick={() => close("friends")}
+                onClick={() => close("friends", null)}
               >
                 <IoClose className="h-5 w-5" />
               </button>
@@ -77,15 +78,18 @@ export default function FriendsModal({ close }: FriendsModalProps) {
                   placeholder="Найди же друзьяшку"
                   type="text"
                   name="search"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
                 />
               </label>
               <div className="friends-container max-h-96 my-4 px-4 overflow-auto">
                 {loading ? (
                   <Load />
                 ) : (
-                  allUsers.map((item, index) => {
+                  friendListUsers.map((item) => {
+
                     return (
-                      <div key={index}>
+                      <div key={item.uid}>
                         <FriendsItem
                           status={item.status}
                           UserName={item.UserName}
@@ -93,6 +97,8 @@ export default function FriendsModal({ close }: FriendsModalProps) {
                         ></FriendsItem>
                       </div>
                     );
+                   
+                   
                   })
                 )}
               </div>
@@ -126,16 +132,18 @@ const FriendsItem: React.FC<FriendsItemProps> = ({ status, UserName, uid }) => {
 
       {icon === "friend" && (
         <button
+          title="Удалить друга"
           className="button-user button-delete py-2.5"
           onClick={deleteFriend}
         ></button>
       )}
       {icon === "waiting" && (
-        <button className="button-user button-waiting py-2.5 pointer-events-none"></button>
+        <span className="button-user button-waiting py-2.5 pointer-events-none"></span>
       )}
 
       {icon === "not friend" && (
         <button
+          title="Добавить друга"
           className="button-user button-add py-2.5"
           onClick={addFriend}
         ></button>

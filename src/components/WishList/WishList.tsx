@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import WishItem from "./WishItem/WishItem";
 import WishForm from "./WishForm/WishForm";
 import { wishState } from "@/store/wishList";
-import getFullThink from "@/app/utils/utils";
-import { usePathname  } from 'next/navigation'
-
+import getFullThink from "@/utils/thinks";
+import { usePathname } from "next/navigation";
+import ErrorBoundary from "../alert/ErrorBoundary";
 
 type WishListProps = {
   isOwner: boolean;
@@ -22,7 +22,7 @@ const WishList: React.FC<WishListProps> = ({ isOwner }) => {
 
   useEffect(() => {
     if (!ownerUid) return;
-    if (pathname !== '/product') {
+    if (pathname !== "/product") {
       updatewishListId(undefined);
     }
     if (isOwner) {
@@ -65,8 +65,7 @@ const WishList: React.FC<WishListProps> = ({ isOwner }) => {
   };
 
   return (
-    <div className="w-full">
-      Список желаний
+    <div className="">
       {isOpenNewWish && <WishForm uid={ownerUid} change={addNewWish} />}
       {!isOwner && !wishListId ? (
         <div>

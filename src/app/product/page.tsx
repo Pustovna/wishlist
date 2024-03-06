@@ -1,26 +1,43 @@
 "use client";
-import UserList from "@/components/UsersList/UserList";
+import AllUsersList from "@/components/UsersList/AllUsersList";
 import WishList from "@/components/WishList/WishList";
-import { useContext, useEffect, useState } from "react";
-import { useAuthContext } from "@/app/context/AuthContext";
+import { Suspense, useEffect } from "react";
 import { userState } from "@/store/usres";
+import { CardSkeleton } from "@/components/sceletons";
+import { useRouter } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/firebase/firebase";
+import SideBarWrapper from "@/components/profile/Sidebar";
 
 export default function Page() {
-  const [loading, setLoading] = useState(true);
-  const { user } = useAuthContext();
+  // const [loading, setLoading] = useState(true);
+  // const { user } = useAuthContext();
+  const [user, loading] = useAuthState(auth);
   const updateUser = userState((state) => state.updateUser);
-  
+  const router = useRouter();
+
   useEffect(() => {
-    updateUser(user.uid);
-  }, []);
+    if (!user) return router.push("/");
+    if (user.uid) {
+      updateUser(user.uid);
+    }
+  }, [user]);
 
   return (
-    <div className="flex">
+    <div className="main-container">
       {!user ? (
         <div className="flex justify-center">Авторизируйся, пожалуйста</div>
       ) : (
         <>
-          <UserList setLoading={setLoading} />
+          <div className="sidebar-container overflow-y-hidden">
+            {/* <ErrorBoundary fallback={<>Oh no! Do something!</>}>
+               <UserList  uid={user.uid}/>
+            </ErrorBoundary> */}
+
+            <Suspense fallback={<CardSkeleton />}>
+              <AllUsersList uid={user.uid} />
+            </Suspense>
+          </div>
           <WishList isOwner={false} />
         </>
       )}

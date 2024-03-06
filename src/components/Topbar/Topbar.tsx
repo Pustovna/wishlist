@@ -3,7 +3,7 @@ import { auth } from "@/app/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { authModalState } from "@/store/auth";
 import { useRouter } from "next/navigation";
-import Logout from "../Buttons/Logout";
+import Logout from "../buttons/Logout";
 import useHasMounted from "@/hooks/useHasMounted";
 
 
@@ -30,7 +30,7 @@ const Topbar: React.FC<TopbarProps> = () => {
     <div>
       {!user && (
         <button
-          className="hover:bg-sky-700 p-3"
+          className="header-button"
           onClick={(e) => handleButtonClick()}
         >
           Login
