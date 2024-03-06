@@ -1,7 +1,7 @@
 import { auth } from "@/app/firebase/firebase";
 import { useSignOut } from "react-firebase-hooks/auth";
 
-export default function Logout() {
+function Logout() {
   const [signOut, loading, error] = useSignOut(auth);
   const handleLogout = () => {
     signOut();
@@ -17,3 +17,5 @@ export default function Logout() {
     </button>
   );
 }
+
+export default Logout;
