@@ -1,7 +1,7 @@
 import { fetchUserData } from "@/services/userData";
-import NameField from "./NameField";
-import FriendsList from "./friendsList";
-import RequestList from "./RequestList";
+import NameField from "@/components/profile/NameField";
+import FriendsList from "@/components/profile/FriendsList";
+import RequestList from "@/components/profile/RequestList";
 
 export default async function SideBarWrapper({ uid }: { uid: string }) {
   const { name, userEmail, requestList, waitingList, friendsList } =

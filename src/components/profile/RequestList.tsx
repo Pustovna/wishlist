@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import FriendsReq from "./Friends";
+import FriendsReq from "@/components/profile/RequestList";
 import { userState } from "@/store/usres";
 
 export default function RequestList({
