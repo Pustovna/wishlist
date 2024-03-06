@@ -1,5 +1,4 @@
-import { deleteThing, getThink } from "@/services/Firebase";
-import { use, useEffect, useState } from "react";
+import { deleteThing } from "@/services/Firebase";
 import "../style.css";
 import { userState } from "@/store/usres";
 import PresentImage from "./PresentImage";

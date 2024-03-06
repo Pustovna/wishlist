@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import FriendsReq from "./Friends";
-import { Friend } from "@/interfaces/Users";
 import { userState } from "@/store/usres";
 
 export default function RequestList({
@@ -8,10 +7,9 @@ export default function RequestList({
   requestList,
 }: {
   uid: string;
-  requestList: string[];
+  requestList: [];
 }) {
-//   const [friendsListStore, setfriendsListStore] =
-//     useState<string[]>(requestList);
+
   const friendsRequestList = userState((state) => state.friendsRequestList);
   const updatefriendsRequestList = userState(
     (state) => state.updatefriendsRequestList

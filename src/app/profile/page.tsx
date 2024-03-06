@@ -47,11 +47,10 @@ export default function Page() {
           <div className="flex gap-10 ml-2">
             {/* <h5 className="text-teal-900 underline font-black">Список желаний</h5> */}
             <button
-            title="add"
+              title="add"
               onClick={handleNewWish}
               className="rounded-xl bg-teal-200 text-black px-1 py-1 hover:bg-sky-700 active:bg-sky-600"
             >
-        
               <svg
                 width="24px"
                 height="24px"

@@ -7,7 +7,6 @@ import { CardSkeleton } from "@/components/sceletons";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/firebase";
-import SideBarWrapper from "@/components/profile/Sidebar";
 
 export default function Page() {
   // const [loading, setLoading] = useState(true);

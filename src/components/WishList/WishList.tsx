@@ -1,4 +1,3 @@
-import { getWishList } from "@/services/Firebase";
 import { userState } from "@/store/usres";
 import { useEffect, useState } from "react";
 import WishItem from "./WishItem/WishItem";
@@ -6,7 +5,6 @@ import WishForm from "./WishForm/WishForm";
 import { wishState } from "@/store/wishList";
 import getFullThink from "@/utils/thinks";
 import { usePathname } from "next/navigation";
-import ErrorBoundary from "../alert/ErrorBoundary";
 
 type WishListProps = {
   isOwner: boolean;

@@ -2,7 +2,6 @@
 
 import {
   GiAnt,
-  GiBeerStein,
   GiBastet,
   GiBadGnome,
   GiBathtub,
@@ -11,7 +10,6 @@ import {
   GiDoctorFace,
 } from "react-icons/gi";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { userState } from "@/store/usres";
 import { addFriends, sendRequestToUser } from "@/services/Firebase";
 

@@ -24,7 +24,6 @@ export default function RootLayout({
         <AuthContextProvider>
           <div className="max-w-screen-xl mx-auto min-h-screen">
             <Navbar />
-
             <main className="min-height-md">{children}</main>
           </div>
         </AuthContextProvider>
