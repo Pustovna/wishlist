@@ -39,7 +39,7 @@ export default function ProfileForm({ uid, type, func }: ProfileFormProps) {
       {type === "friends" && (
         <>
           <div>
-            <FriendsModal close={() => func("friends", null)} />
+            <FriendsModal close={() => func("friends", [])} />
           </div>
         </>
       )}

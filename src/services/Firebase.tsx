@@ -1,16 +1,13 @@
 import { firestore } from "@/app/firebase/firebase";
-import User from "@/interfaces/Users";
+import { User } from "@/interfaces/Users";
 import {
   addDoc,
-  deleteDoc,
-  deleteField,
   collection,
   doc,
   getDoc,
   getDocs,
   query,
   runTransaction,
-  updateDoc,
   DocumentReference,
   Transaction,
   DocumentSnapshot,
@@ -31,7 +28,7 @@ export function useGetUsers(
       const tmp: User[] = [];
 
       querySnapshot.forEach((doc) => {
-        tmp.push({ uid: doc.id, ...(doc.data() as User) });
+        tmp.push({ ...(doc.data() as User) });
       });
       setProblems(tmp);
       setLoading(false);

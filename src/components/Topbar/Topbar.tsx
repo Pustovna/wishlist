@@ -3,7 +3,7 @@ import { auth } from "@/app/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { authModalState } from "@/store/auth";
 import { useRouter } from "next/navigation";
-import Logout from "../buttons/Logout";
+import Logout from "@/components/buttons/Logout";
 import useHasMounted from "@/hooks/useHasMounted";
 
 

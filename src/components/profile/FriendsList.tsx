@@ -9,7 +9,7 @@ export default function FriendsList({
   friendsList,
 }: {
   uid: string;
-  friendsList: Friend[];
+  friendsList: [];
 }) {
   const [changeUserInfo, setchangeUserInfo] = useState<String>("");
 //   const [friendsListStore, setfriendsListStore] =

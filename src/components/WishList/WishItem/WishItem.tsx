@@ -24,6 +24,7 @@ const WishItem: React.FC<WishItemProps> = ({
 }) => {
   const ownerUid = userState((state) => state.user);
   const deleteItem: any = (idOfItem: string) => {
+    if (!ownerUid) return;
     deleteThing(ownerUid, idOfItem).then((res) => {
       change();
     });

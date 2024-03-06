@@ -1,5 +1,5 @@
 import { firestore } from "@/app/firebase/firebase";
-import User from "@/interfaces/Users";
+import { User } from "@/interfaces/Users";
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 
 export async function getAllUsers() {

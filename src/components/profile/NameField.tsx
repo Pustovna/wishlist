@@ -13,7 +13,7 @@ export default function  NameField({
     const [changeUserInfo, setchangeUserInfo] = useState<String>("");
     const [name, setName] = useState<String>(userName);
   
-    const handleOpenChanges = (sorse: string, newName = null) => {
+    const handleOpenChanges = (sorse: string, newName: any = null) => {
       if (changeUserInfo === sorse) {
         setchangeUserInfo("");
         if (newName) {
